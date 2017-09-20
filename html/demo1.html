@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<canvas width="640" height="480" id="testcanvas" style="border: black 1px solid">
+    if you brower don't canvas
+</canvas>
+<img src="../images/spaceship.png" alt="picture"
+     id="spaceship">
+<script type="text/javascript">
+    function pageLoaded() {
+//获取canvas对象的引用
+        var canavs = document.getElementById("testcanvas");
+        console.log(canavs);
+        //获取该canvas的2D绘图环境
+        var context = canavs.getContext('2d');
+        //绘制代码出现在这里；
+        //实心矩形；
+        //在点（200，10)处绘制一个宽、高均为100像素的实心矩形
+        context.fillRect(200, 10, 100, 100);
+        //在点（50，70）处绘制一个宽90像素、高30像素的实心矩形
+        context.fillRect(50, 70, 90, 30);
+
+
+        //空心矩形（矩形边框）
+        //在点（110，10）处绘制一个宽和高均为50像素的正方形边框
+        context.strokeRect(110, 10, 50, 50);
+        //在点（30，10）处绘制一个宽和高均为50像素的正方形边框
+        context.strokeRect(30, 10, 50, 50);
+
+        //清除矩形区域
+        //清楚点（210，20）处宽30像素，高20像素的矩形区域
+        context.clearRect(210, 20, 30, 20);
+        //清除点（260，20）处宽30像素、高20像素的矩形区域；
+        context.clearRect(260, 20, 30, 20);
+        console.log(Math.PI * 2);
+        //绘制复杂形状
+        //填充三角形
+        context.beginPath();
+        context.moveTo(10, 120);//从点（10，20）开始
+        context.lineTo(10, 180);
+        context.lineTo(110, 150);
+        context.fill();//自动闭合所有未闭合的路径,并以填充的方式显示出来
+        //三角形的外边框
+        context.beginPath();//从点（140，160开始；
+        context.moveTo(140, 160);
+        context.lineTo(140, 220);
+        context.lineTo(40, 190);
+        context.closePath();
+        context.stroke();
+        //一个更复杂的多边形
+        context.beginPath();
+        context.moveTo(160, 160);//从点（160，160）开始
+        context.lineTo(170, 220);
+        context.lineTo(240, 210);
+        context.lineTo(260, 170);
+        context.lineTo(190, 140);
+        context.closePath();
+        context.stroke();
+        //绘制弧
+        //绘制半圆弧
+        context.beginPath();
+        //在（100，30）处为圆心逆时针画一个半径为40，角度从0到180；
+        context.arc(100, 300, 40, 0, Math.PI, true);//PI的弧度是180；
+        context.stroke();
+        //画一个实心的园
+        context.beginPath();
+        //在（100，300）处为圆心顺时针画一个半径为30，角度为0到360的弧，也就是一个个园
+        context.arc(100, 300, 30, 0, 2 * Math.PI, false);
+        context.fill();
+        //画一个3/4的弧
+        context.beginPath();
+        //在（200,300）处顺时针画一个半径为25，角度为0到270的弧；
+        context.arc(200, 300, 25, 0, 3 / 2 * Math.PI, false);//3/2*PI的弧度是270；
+        context.stroke();
+        //绘制文本
+        context.fillText('This is some text...', 330, 40);
+
+        //修改字体
+        context.font = '20px Arial';
+        context.fillText('This is in 20 px Arial....', 330, 60);
+
+        //绘制空心的文本
+        context.font = "16pt Arial";
+        context.strokeText('This is stroked in 16 pt Araial...', 330, 80);
+        //canvas默认的颜色都是黑色的
+        //设置填充颜色为红色
+        context.fillStyle = "red";
+        //画一个红色的实心矩形
+        context.fillRect(310, 160, 100, 50);
+        //设置边线颜色为绿色
+        context.strokeStyle = 'green';
+        //画一个绿色的空心矩形
+        context.strokeRect(310, 240, 100, 50);
+
+        //使用rgb()设置填充颜色为红色
+        context.fillStyle = 'rgb(225,0,0)';
+        //画一个红色的实心矩形
+        context.fillRect(420, 160, 100, 50);
+
+        //设置填充颜色为绿色且alpha值（透明度）为0.6
+        context.fillStyle = "rgba(0,255,0,0.6)";
+        //画一个半透明的绿色实心矩形
+        context.fillRect(450, 180, 100, 50);
+        //获取图片的对象引用；
+        var image = document.getElementById('spaceship');
+        //在（0，350）处绘制图片
+        context.drawImage(image, 0, 350);
+
+        /*  图片缩小至原来的一半,在坐标（0，400）
+         处绘制一个宽为100px,高为25px的图片image*/
+        context.drawImage(image, 0, 400, 100, 25);
+        //绘制图片的局部
+        /*在图片image上裁剪一个坐标为（0,0,60,50）的矩形区域
+         并在坐标（0，420）处进行绘制，图片的宽为60px,高为50px;
+         * */
+        context.drawImage(image, 0, 0, 60, 50, 0, 420, 30, 30);
+        //平移原点物体的位置
+        context.save();
+        context.translate(250, 370);
+        //以新的原点为中心旋转60度
+        context.rotate(Math.PI / 3);
+        context.drawImage(image, 0, 0, 60, 50, -30, -25, 60, 50);
+        /*   //通过反响旋转和平移恢复原点的状态；
+         context.rotate(-Math.PI/3);
+         context.translate(-250,-370);*/
+        //平移原点至物体的位置
+        context.restore();
+        /*除了通过反向旋转和平移，还可以在变换前调用save(),变换后调用
+         restore()方法来恢复canvas状态*/
+        context.translate(300, 370);
+        //以新原点为中心旋转
+        context.rotate(3 * Math.PI / 4);
+        context.drawImage(image, 0, 0, 60, 50, -40, -25, 60, 50);
+    }
+
+    pageLoaded();
+</script>
+</body>
+</html>

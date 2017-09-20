@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywonds" content="jQuery实现的网页打飞机游戏、JS特效、Jquery特效" />
+    <meta name="description" content="jQuery实现的网页打飞机游戏、JS特效、Jquery特效" />
+    <title>打飞机游戏</title>
+    <link rel="stylesheet" type="text/css" href="../css/basic.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="box" class="box"></div>
+    <script type="text/javascript" src="../js/index.js"></script>
+    <script type="text/javascript">
+    //产生指定区域整形随机数。
+    function randomNum(a, b) {
+    	//返回 double 值的绝对值。如果参数是非负数，则返回该参数。如果参数是负数，则返回该参数的相反数。特殊情况是：
+
+        var value = Math.abs(a - b),
+            num;
+        num = parseInt(Math.random() * (value)) + Math.min(a, b);
+        return num;
+    }
+    console.log(randomNum(10,9))
+    </script>
+</body>
+
+</html>

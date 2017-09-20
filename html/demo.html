@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        save and restore
+    </title>
+</head>
+
+<body>
+    <div style="width: 100px; height: 100px; background:#ff0000;float: left;"></div>
+    <div style="width: 100px; height: 100px; background:#00ff00;float: left;"></div>
+    <div style="width: 100px; height: 100px; background:#0000ff;float: left;margin-right:20px;"></div>
+    <canvas width="600" height="300" id="canavs">
+        Don't canvas browe
+    </canvas>
+    <script type="text/javascript">
+    /* 首先,将 fillStyle 设置为红色,并调用 save() 保存上下文状态。接下来,把 fillStyle 修改
+为绿色,把坐标原点变换到(100,100),再调用 save() 保存上下文状态。然后,把 fillStyle 修改为蓝
+色并绘制蓝色的矩形。因为此时的坐标原点已经变了,所以矩形的左上角坐标实际上是(100,100)。然后
+调用 restore() ,之后 fillStyle 变回了绿色,因而第二个矩形就是绿色。之所以第二个矩形的起点
+坐标是(110,110),是因为坐标位置的变换仍然起作用。再调用一次 restore() ,变换就被取消了,而
+fillStyle 也返回了红色。所以最后一个矩形是红色的,而且绘制的起点是(0,0)。
+需要注意的是, save() 方法保存的只是对绘图上下文的设置和变换,不会保存绘图上下文的
+内容。 */
+    var drawing = document.getElementById("canavs");
+    if (drawing.getContext) {
+        var context = drawing.getContext('2d');
+        context.fillStyle = "#ff0000"; //red
+        context.save();
+        context.fillStyle = "#00ff00"; //green
+        context.translate(100, 100); //变换原点坐标（0，0）到（100，100）
+        context.save();
+        context.fillStyle = '#0000ff'; //blue
+        context.fillRect(0, 0, 100, 200); //从点(110,110)开始绘制蓝色矩形
+        context.restore();
+        context.fillRect(10, 10, 100, 200); //从点(160,50)开始绘制绿色矩形
+        context.restore();
+        context.fillRect(0, 0, 100, 200); //从点(0,0)开始绘制红色矩形,
+    }
+    </script>
+</body>
+
+</html>

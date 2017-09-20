@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-type" content="text/html" charset="UTF-8">
+    <title>Froot Wars</title>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/game.js"></script>
+    <link rel="stylesheet" href="../css/style.css" media="screen">
+</head>
+<body>
+<!--基本框架和添加图层-->
+<div id="gamecontainer" class="gamecontainer">
+    <canvas id="gamecanvas" width="640" height="480" class="gamelayer">
+    </canvas>
+<!--分数-->
+    <div id="scorescreen" class="gamelayer scorescreen">
+        <img id="togglemusic" src="../images/icons/sound.png">
+        <img src="../images/icons/prev.png">
+        <span id="score">分数: 0</span>
+    </div>
+<!--游戏开始菜单屏幕-->
+    <div id="gamestartscreen" class="gamelayer gamestartscreen">
+        <img src="../images/icons/play.png" alt="Play Game" onclick="game.showLevelScreen();"><br>
+        <img src="../images/icons/settings.png" alt="Settings">
+    </div>
+<!--水平选择屏幕-->
+    <div id="levelselectscreen" class="gamelayer levelselectscreen">
+    </div>
+<!--载入画面 -->
+    <div id="loadingscreen" class="gamelayer loadingscreen">
+        <div id="loadingmessage" class="loadingmessage"></div>
+    </div>
+
+    <div id="endingscreen" class="gamelayer">
+        <div>
+            <p id="endingmessage">级别超过消息:</p>
+            <p id="playcurrentlevel"><img src="../images/icons/prev.png"> 重播当前水平</p>
+            <p id="playnextlevel"><img src="../images/icons/next.png"> 播放下一级</p>
+            <p id="showLevelScreen"><img src="../images/icons/return.png"> 返回水平屏幕</p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
