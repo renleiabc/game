@@ -13,7 +13,7 @@
 
 .gamelayer {
     width:640px;
-    height:200px;
+    height:480px;
     position:absolute;
     display:none;
 }
@@ -83,6 +83,7 @@
 
 .scorescreen .score {
     position:absolute;
-    top:5px;
-    right:20px;
+    top:10px;
+    right:30px;
+    font-size: 25px;
 }

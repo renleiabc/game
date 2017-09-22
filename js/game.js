@@ -1,7 +1,70 @@
 /**
  * Created by renleilei on 17-9-15.
  */
+(function() {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame =
+            window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+}());
 var game = {
+    ////游戏阶段
+    mode:'intro',
+    //弹弓的X和Y坐标
+    slingshotX:140,
+    slingshotY:280,
+    start:function () {
+        $('.gamelayer').hide();
+        //显示游戏画布和得分
+        $('#gamecanvas').show();
+        $('#scorescreen').show();
+        game.mode = "intro";
+        game.offsetLeft = 0;
+        game.ended = false;
+        game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
+
+    },
+    handlePanning:function () {
+        //临时函数——使画面向右平移
+        game.offsetLeft++;
+    },
+    animate:function () {
+      //移动背景
+        game.handlePanning();
+        //使角色运动
+        //使用使用视差滚动绘制背景
+        game.context.drawImage(game.currentLevel.backgroundImage,
+            game.offsetLeft/4,0,640,480,0,0,640,480);
+        game.context.drawImage(game.currentLevel.foregroundImage,
+            game.offsetLeft/4,0,640,480,0,0,640,480);
+        //绘制弹弓
+        game.context.drawImage(game.slingshotImage,
+            game.slingshotX-game.offsetLeft,game.slingshotY);
+        game.context.drawImage(game.slingshotFrontImage,
+            game.slingshotX-game.offsetLeft,game.slingshotY);
+
+        if (!game.ended){
+            game.animationFrame = window.requestAnimationFrame(game.animate,game.canvas);
+        }
+    },
     //开始初始化对象，予加载资源，并显示开始的画面
     init: function () {
         //初始化对象
@@ -58,7 +121,7 @@ var levels = {
         //声明一个新的当前关卡对象
         game.currentLevel = {number:number,hero:[]};
         game.score = 0;
-        $('#score').html('Score:'+game.score);
+        $('#score').html('得分:'+game.score);
         var level = levels.data[number];
         //加载背景、前景和弹弓图像
         game.currentLevel.backgroundImage =
@@ -129,6 +192,29 @@ var loader = {
                 loader.onload = undefined;
             }
         }
+    }
+}
+
+var mouse = {
+    x:0,
+    y:0,
+    down:false,
+    init:function () {
+        $("#gamecanvas").mousemove(mouse.mousemovehandler);
+        $("#gamecanvas").mousedown(mouse.mousedownhandler);
+        $("#gamecanvas").mouseup(mouse.mouseuphandler);
+        $("#gamecanvas").mouseout(mouse.mouseuphandler);
+    },
+    mousemovehandler:function (ev) {
+        var offset = $("#gamecanvas").offset();
+        mouse.x = ev.pageX - offset.left;
+        mouse.y = ev.pageX - offset.top;
+        if(mouse.down){
+            mouse.dragging = true;
+        }
+    },
+    mousedownhandler:function (ev) {
+        
     }
 }
 /*使用load()事件安全的调用game.init()方法*/
